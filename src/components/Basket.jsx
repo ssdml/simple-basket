@@ -10,6 +10,7 @@ class Basket extends Component {
         this.setCouponHandler = this.setCouponHandler.bind(this)
         this.undo = this.undo.bind(this)
         this.redo = this.redo.bind(this)
+        console.log(props)
     }
     moreItems(id, name, price, e) {
         this.props.addItem(id, name, price)

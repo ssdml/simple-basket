@@ -57,3 +57,13 @@ body {
 .UndoRedo button:first-child {
   margin-right: 10px;
 }
+.items-catalog {
+  padding: 20px;
+}
+.items-catalog__header {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.catalog-item {
+  padding-bottom: 15px;
+}
