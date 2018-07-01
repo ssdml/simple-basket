@@ -1,10 +1,36 @@
-export const basket = (state = [], action) => {
+export const basket = (state = {past: [], current: [], future: []}, action) => {
     switch (action.type) {
         case 'ADD_ITEM':
-            return addItemReducer(state, action)
+            return {
+                past: [...state.past, state.current],
+                current: addItemReducer(state.current, action),
+                future: [],
+            }
 
         case 'REMOVE_ITEM':
-            return removeItemReducer(state, action)
+            return {
+                past: [...state.past, state.current],
+                current: removeItemReducer(state.current, action),
+                future: [],
+            }
+        case 'REDO':
+            if (state.future.length < 1) {
+                return state
+            }
+            return {
+                past: [...state.past, state.current],
+                current: state.future[state.future.length - 1],
+                future: state.future.slice(0, -1),
+            }
+        case 'UNDO':
+            if (state.past.length < 1) {
+                return state
+            }
+            return {
+                past: state.past.slice(0, -1),
+                current: state.past[state.past.length - 1],
+                future: [...state.future, state.current],
+            }
         default:
             return state
     }
@@ -13,11 +39,12 @@ export const basket = (state = [], action) => {
 const addItemReducer = (state, action) => {
     let changeFlag = false;
     let newState = state.map((item) => {
-        if (item.id === action.id) {
-            item.quantity++;
+        let newItem = Object.assign({}, item)
+        if (newItem.id === action.id) {
+            newItem.quantity++;
             changeFlag = true;
         }
-        return item
+        return newItem
     });
     if (changeFlag) {
         return newState
@@ -34,11 +61,12 @@ const addItemReducer = (state, action) => {
 }
 
 const removeItemReducer = (state, action) => {
-    let newState2 = state.map((item) => {
-        if (item.id === action.id) {
-            item.quantity -= action.quantity
+    let newState = state.map((item) => {
+        let newItem = Object.assign({}, item)
+        if (newItem.id === action.id) {
+            newItem.quantity -= action.quantity
         }
-        return item
+        return newItem
     })
-    return newState2.filter(item => item.quantity > 0)
+    return newState.filter(item => item.quantity > 0)
 }

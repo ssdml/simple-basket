@@ -50,3 +50,10 @@ body {
 .link {
   cursor: pointer;
 }
+
+.UndoRedo {
+  padding: 10px;
+}
+.UndoRedo button:first-child {
+  margin-right: 10px;
+}

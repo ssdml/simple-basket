@@ -11,7 +11,18 @@ export const removeItem = (itemId, itemQuantity) => ({
     quantity: itemQuantity,
 })
 
+export const redo = () => ({
+    type: 'REDO'
+})
+
+export const undo = () => ({
+    type: 'UNDO'
+})
+
+
 export default {
     addItem,
     removeItem,
+    undo,
+    redo,
 }

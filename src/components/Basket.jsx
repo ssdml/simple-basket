@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Item from '../components/Item'
+import UndoRedo from '../components/UndoRedo'
 
 class Basket extends Component {
     constructor() {
@@ -7,6 +8,8 @@ class Basket extends Component {
         this.moreItems = this.moreItems.bind(this)
         this.lessItems = this.lessItems.bind(this)
         this.setCouponHandler = this.setCouponHandler.bind(this)
+        this.undo = this.undo.bind(this)
+        this.redo = this.redo.bind(this)
     }
     moreItems(id, name, price, e) {
         this.props.addItem(id, name, price)
@@ -18,9 +21,15 @@ class Basket extends Component {
         console.log(e);
         console.log("set coupon")
     }
+    redo() {
+        this.props.redo()
+    }
+    undo() {
+        this.props.undo()
+    }
     render() {
         let self = this
-        let items = this.props.basket.map(function (element) {
+        let items = this.props.basket.current.map(function (element) {
             return (
                 <Item
                     id={element.id}
@@ -41,6 +50,7 @@ class Basket extends Component {
                 <div className="basket__title">Корзина</div>
                 {(items.length < 1) ? 'Ваша корзина пуста' : ''}
                 { items }
+                <UndoRedo undoHandler={this.undo} redoHandler={this.redo}/>
             </div>
         )
     }
